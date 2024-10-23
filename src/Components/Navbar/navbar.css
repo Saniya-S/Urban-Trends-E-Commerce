@@ -102,7 +102,7 @@ ul{
     display: none;
 }
 
-@media screen and (min-width: 992px){
+@media screen and (min-width: 1024px){
     .desk-links {
         position: relative;
         display: inline-block !important; /* Override inline style */
@@ -133,7 +133,7 @@ ul{
     }
 
     .search-container input{
-        width: 300px;
+        min-width: 100px;
     }
     .icons-container{
         margin-right: 10px;
