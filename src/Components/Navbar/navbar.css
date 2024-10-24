@@ -17,6 +17,8 @@
     top: 100%;
     right: 0;
     left: 0;
+    z-index: 3;
+    background-color: white;
 }
 
 ul{
@@ -54,7 +56,7 @@ ul{
 }
 
 .search-container input{
-    
+    border-radius: 6px;
     outline: none;
     border: none;
     box-shadow: none;
@@ -158,6 +160,9 @@ ul{
         margin-right: 5px;
         margin-left: 5px;
         text-decoration: underline;
+    }
+    .toggle{
+        background-color: #d6ccc4;
     }
 }
 
