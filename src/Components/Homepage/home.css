@@ -1,3 +1,13 @@
+.link-container{
+    height: 100%;
+    width: 100%;
+}
+.link-container div{
+    display: flex;
+    align-items: end;
+    height: 100%;
+}
+
 .banner-container{
     display: flex;
     flex-wrap: wrap;

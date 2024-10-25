@@ -1,5 +1,5 @@
 import './home.css';
-
+import {Link} from 'react-router-dom';
 //List of category title banner
 const categories = [{title: 'Shop for Kids', path: '/kids', backgroundImg: 'https://images.unsplash.com/photo-1507036066871-b7e8032b3dea?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'},
     {title: 'Shop for Women', path: '/women', backgroundImg: 'https://images.unsplash.com/photo-1712652517126-2e94d47f0cc9?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8d29tZW4lMjBmYXNoaW9ufGVufDB8fDB8fHww'},
@@ -11,16 +11,22 @@ const CategoriesBanner = () => {
     return(
         <div className="banner-container">
             {categories && categories.map((category) => 
-            
+                
                 <div className='category-container' style={{backgroundImage: `url(${category.backgroundImg})`}}>
+                    <Link className='link-container' to={category.path}>
                     <div>
-                    <h2>{category.title}</h2>
+                        <div>
+                        <h2>{category.title}</h2>
+                        </div>
+                    
                     </div>
+                    </Link>
                 </div>
+                
 
             )}
         </div>
     )
 }
 
-export default CategoriesBanner;
+export default CategoriesBanner; 
