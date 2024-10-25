@@ -41,5 +41,11 @@
     }
 }
 
+/* New Arrivals */
+.new-arrivals-container{
+    margin: 5px;
+}
 
-
+.icon{
+    font-size: 30px;
+}
