@@ -1,8 +1,9 @@
 import {useState} from 'react';
+import ProductCard from './ProductCard';
 
 //Font-awesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleChevronRight, faCircleChevronLeft, faCartArrowDown, faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faCircleChevronRight, faCircleChevronLeft} from '@fortawesome/free-solid-svg-icons';
 
 //CSS
 import './carousel-product.css';
@@ -29,19 +30,7 @@ const CarouselProduct = (props) => {
             <FontAwesomeIcon onClick={handleNext} className='next-icon icon' icon={faCircleChevronRight} />
             <div className="product-track" style={{ transform: `translateX(-${currentIndex * 33.33}%)` }}>
             {productList && productList.map((item) => 
-                <div className='product-container' key={item.index}>
-                    <div className='product-image product-choice'style={{backgroundImage: `url(${item.imagelink})`}}>
-                    <div>
-                        <FontAwesomeIcon className='add-icon heart' icon={faHeart} />
-                        </div>
-                        <div>
-                            <FontAwesomeIcon className='add-icon'icon={faCartArrowDown} />
-                        </div>
-                        
-                    </div>
-                    <h3>{item.productname}</h3>
-                    <h4>{item.price}</h4>
-                </div>
+                <ProductCard item={item} />
             )}
             </div>
 

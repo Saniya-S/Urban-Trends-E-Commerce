@@ -1,0 +1,46 @@
+.sub-category-container{
+    display: flex;
+    margin: 0 30px;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    max-width: 1200px;
+}
+
+
+.sub-category-box{
+    margin: 4px 5px;
+    text-align: center;
+    height: 70px;
+    flex-basis: 30.33%;
+    min-width: 30%;
+    background-color: #d6ccc4;
+    padding: 10px;
+    border-radius: 6px;
+}
+
+
+
+.category-name{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+   
+
+}
+
+@media screen and (min-width: 600px) {
+    .sub-category-box{
+        flex-basis: 23%;
+        min-width: 23%;
+    }
+    .sub-category-container{
+        justify-content: flex-start;
+        max-width: 90%;
+        
+    }
+    .category-name div h5{
+        font-size: 20px;
+    }
+}
+
