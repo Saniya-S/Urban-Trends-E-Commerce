@@ -3,6 +3,10 @@
     padding: 5px
 }
 
+.best-seller{
+    margin: 10px;
+    padding: 5px
+}
 @media screen and (min-width: 1074px) {
     .cat-banner{
         margin: 0 20px;
