@@ -12,7 +12,7 @@ const images = [
 const PromotionBanner = () => {
     return (
         <div>
-            <Carousel displayDots={true} images={images}/>
+            <Carousel displayDots={true} images={images} height={'300px'} size={'contain'}/>
         </div>
     )
 }

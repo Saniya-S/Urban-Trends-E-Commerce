@@ -9,7 +9,7 @@ import './carousel.css'
 
 
 const Carousel = (props) => {
-    const {displayDots, images} = props;
+    const {displayDots, images, height, size} = props;
     console.log(displayDots);
     //State Variables
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -39,7 +39,7 @@ const Carousel = (props) => {
     return (
         <div>
             
-            <div className= {`content`} style={{backgroundImage: `url(${images[currentIndex]})`, height: '200px'}}>
+            <div className= {`content`} style={{backgroundImage: `url(${images[currentIndex]})`, height: height, backgroundSize: size}}>
                 <div className='box'>
                     <div className="buttons-container">
                         <div>

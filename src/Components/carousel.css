@@ -25,7 +25,7 @@
 .content{
     background-position: center;
     background-repeat: no-repeat;
-    background-size: contain;
+    /* background-size: contain; */
     
     
     
@@ -33,7 +33,7 @@
 
 @media screen and (min-width: 600px) {
     .content{
-        background-size: cover;
+        background-size: cover !important; 
         
     }
 }
