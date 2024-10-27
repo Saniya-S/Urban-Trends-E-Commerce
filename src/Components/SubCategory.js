@@ -7,10 +7,10 @@ const SubCategory = (props) => {
             
             {categoryList && categoryList.map((category, index) => 
                 <div className='sub-category-box' key={index}>
-                    <Link to={category.path}>
+                    <Link to={`/${category.subcategory}`}>
                         <div className="category-name">
                             <div>
-                                <h5>{category.name}</h5>
+                                <h5>{category.subcategory}</h5>
                             </div>
                             
                         </div>

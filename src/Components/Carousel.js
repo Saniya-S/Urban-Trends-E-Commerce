@@ -10,7 +10,7 @@ import './carousel.css'
 
 const Carousel = (props) => {
     const {displayDots, images, height, size} = props;
-    console.log(displayDots);
+    
     //State Variables
     const [currentIndex, setCurrentIndex] = useState(0);
     

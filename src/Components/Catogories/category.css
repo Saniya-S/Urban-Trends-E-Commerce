@@ -12,9 +12,89 @@
     display: flex;
     justify-content: center;
 }
+
+.explore-products-container{
+    margin: 10px;
+    padding: 10px;
+    background-color: #d6ccc4;
+    border-radius: 6px;
+}
+
+.filter{
+    display: flex;
+    justify-content: space-around;
+    margin: 5px 2px;
+    flex-wrap: wrap;
+}
+
+.input-num{
+    width: 50px;
+    border: 1px solid #d6ccc4;
+    padding: 5px;
+}
+
+select{
+    background-color: white;
+    outline: none;
+    box-shadow: none;
+    border: 1px solid #d6ccc4;
+    padding: 5px;
+
+}
+
+.input-box{
+    margin-top: 5px;
+
+}
+
+.promotion{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.filter-button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+.filter-box{
+    margin: 5px 2px;
+}
+
+button{
+    background-color: black;
+    color: #d6ccc4;
+    padding: 10px;
+    border-radius: 6px;
+    border: none;
+    font-size: 15px;
+    width: 100px;
+    
+}
+
+
 @media screen and (min-width: 1074px) {
     .cat-banner{
         margin: 0 20px;
+    } 
+    label{
+        font-size: 20px;
+    }
+    .filter{
+        flex-basis: 13.66%;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+    }
+    
+    .promotion{
+        justify-content: flex-start;
+    }
+    .input-num, select, .checkbox{
+        padding: 10px;
     }
    
     
