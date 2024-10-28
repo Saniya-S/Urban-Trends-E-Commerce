@@ -26,7 +26,7 @@ const Navbar = () => {
             <nav>
                 <div className="nav-container">
                 <div>
-                    <Link to='home'>
+                    <Link to='/'>
                     <img className='logo' src={logo} alt='Urban Trends Logo'/>
                     </Link>
                 </div>
