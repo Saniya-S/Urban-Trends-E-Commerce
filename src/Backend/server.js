@@ -47,6 +47,42 @@ const fetchColors = (category, callback) => {
     })
 }
 
+const fetchProducts = ({category, minprice, maxprice, style, color, promotion}, callback) => {
+    let query = 'SELECT * FROM products WHERE category = ?';
+    let queryParams = [category];
+
+    
+    if (minprice) {
+        query += ' AND price >= ?';
+        queryParams.push(minprice);
+    }
+    if (maxprice) {
+        query += ' AND price <= ?';
+        queryParams.push(maxprice);
+    }
+    if (style) {
+        query += ' AND subcategory = ?';
+        queryParams.push(style);
+    }
+    if (color) {
+        query += ' AND colors LIKE ?';
+        queryParams.push(`%${color}%`);
+    }
+    if (promotion) {
+        query += ' AND tags LIKE ?';
+        queryParams.push(`%${promotion}%`);
+    }
+
+    con.query(query, queryParams, (err, results) => {
+        if (err) {
+            callback(err, null);
+        } else {
+            callback(null, results);
+        }
+    });
+}
+
+
 const server = http.createServer((req, res) => {
     console.log(`Request received at: ${req.url} with method: ${req.method}`); //logs the URL and Method used //🔴
 
@@ -98,7 +134,29 @@ const server = http.createServer((req, res) => {
                 }
            })
         })
-    } else{
+    } else if (req.url.startsWith('/products') && req.method === 'POST') {
+        let data = '';
+
+        req.on('data', chunk => {
+            data += chunk;
+        })
+
+        req.on('end', () => {
+            const requestData = JSON.parse(data);
+            fetchProducts(requestData, (err, results) => {
+                if (err) {
+                    console.error('error in fetching products');
+                    res.writeHead(500, {'content-type' : 'plain/text'});
+                    res.end('Error in fetching products');
+                } else {
+                    res.writeHead(200, {'content-type' : 'application/json'});
+                    res.end(JSON.stringify(results));
+                }
+            })
+        })
+    }
+    
+    else{
         res.writeHead(404, {'content-type':'text/plain'});
         res.end('Not Found');
     }

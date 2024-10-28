@@ -75,6 +75,28 @@ button{
     
 }
 
+.product-display{
+    display: flex;
+    margin: 10px;
+    
+    flex-wrap: wrap;
+    width: 100%;
+    /* justify-content: space-between; */
+    
+}
+
+.product-card{
+    width: 33.33%;
+
+}
+
+.container{
+    flex-basis: 33.33%;
+    justify-content: center;
+    display: flex;
+    
+}
+
 
 @media screen and (min-width: 1074px) {
     .cat-banner{
@@ -96,6 +118,7 @@ button{
     .input-num, select, .checkbox{
         padding: 10px;
     }
+    
    
     
 }

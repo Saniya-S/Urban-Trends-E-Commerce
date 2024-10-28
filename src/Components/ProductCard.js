@@ -9,8 +9,8 @@ import './product-card.css';
 const ProductCard = (props) => {
     const {item} = props;
     return(
-        <div className='product-container' key={item.index}>
-                    <div className='product-image product-choice'style={{backgroundImage: `url(${item.imagelink})`}}>
+        <div className='product-container' key={item.prod_id}>
+                    <div className='product-image product-choice'style={{backgroundImage: `url(${item.image_link})`}}>
                     <div>
                         <FontAwesomeIcon className='add-icon heart' icon={faHeart} />
                         </div>
@@ -19,8 +19,8 @@ const ProductCard = (props) => {
                         </div>
                         
                     </div>
-                    <h3>{item.productname}</h3>
-                    <h4>{item.price}</h4>
+                    <h3>{item.product_name}</h3>
+                    <h4>Dhs {item.price}</h4>
                 </div>
     )
 }
