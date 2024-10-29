@@ -1,10 +1,13 @@
-import { useParams,  } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useState, useEffect} from 'react';
 import ProductCard from "../ProductCard";
+//Font-awesome
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {faCircleLeft } from '@fortawesome/free-solid-svg-icons';
 
-const CategoryView = (props) => {
-    const {category} = props;
-    const {subCategory} = useParams();
+
+const CategoryView = () => {
+    const {subCategory, category} = useParams();
     console.log('sub', subCategory);
     const [categoryProduct, setCategoryProduct] = useState([]);
 
@@ -38,7 +41,10 @@ const CategoryView = (props) => {
     
     return(
         <div>
-            <div>
+            <div className="heading">
+                <Link to={`/${category}`} >
+                <FontAwesomeIcon className='icon back-icon' icon={faCircleLeft} />
+                </Link>
                 <h1>{subCategory.toUpperCase()}</h1>
             </div>
             <div className="category-view-container">

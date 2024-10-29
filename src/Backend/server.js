@@ -47,11 +47,14 @@ const fetchColors = (category, callback) => {
     })
 }
 
-const fetchProducts = ({category, minprice, maxprice, style, color, promotion}, callback) => {
+const fetchProducts = ({category, minprice, maxprice, style, color, promotion, product_name, prod_id}, callback) => {
     let query = 'SELECT * FROM products WHERE category = ?';
     let queryParams = [category];
 
-    
+    if (product_name) {
+        query += ' And product_name = ?';
+        queryParams.push(product_name);
+    }
     if (minprice) {
         query += ' AND price >= ?';
         queryParams.push(minprice);
@@ -71,6 +74,11 @@ const fetchProducts = ({category, minprice, maxprice, style, color, promotion}, 
     if (promotion) {
         query += ' AND tags LIKE ?';
         queryParams.push(`%${promotion}%`);
+    }
+    if(prod_id){
+        query += ' AND prod_id = ?';
+        queryParams.push(prod_id);
+
     }
 
     con.query(query, queryParams, (err, results) => {

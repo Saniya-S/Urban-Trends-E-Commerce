@@ -1,0 +1,85 @@
+.path{
+    margin: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.path a{
+    text-decoration: underline;
+    color: #d6ccc4;
+
+}
+
+.path p{
+    font-size: 20px;
+    color: grey;
+    font-style: italic;
+}
+
+.product-view-container{
+    display: flex;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.product-view-container img{
+    width: 48%;
+    
+}
+
+.image-container, .details-container {
+    flex-basis: 48%; 
+    margin: 10px;
+}
+
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* This ensures the image covers the area without distortion */
+}
+
+.details-container h2{
+    text-decoration: underline;
+}
+
+.btn-container{
+    display: flex;
+    justify-content: space-between;
+}
+
+.details-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+}
+
+.details-container div{
+    margin: 5px 0;
+}
+
+.back{
+    margin: 5px;
+  
+}
+
+.back-icon{
+    color: #d6ccc4;
+    font-size: 40px;
+}
+@media screen and (min-width: 1074px) {
+    .image-container img{
+        height: 500px;
+    }
+    .btn-container{
+        justify-content: space-evenly;
+    }
+    .details-container{
+        justify-content: flex-start;
+    }
+}
+
+
+
+
+

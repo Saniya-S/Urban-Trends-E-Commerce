@@ -110,6 +110,16 @@ button{
     flex-basis: 33.33%;
 }
 
+.back-icon{
+    color: #d6ccc4;
+    font-size: 40px;
+}
+
+.heading{
+    display: flex;
+    align-items: center;
+}
+
 @media screen and (min-width: 1074px) {
     .cat-banner{
         margin: 0 20px;

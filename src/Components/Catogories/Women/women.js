@@ -109,7 +109,7 @@ useEffect(() => {
                 <CarouselProduct productList={list} />
             </div>
             <div className='sub-category'>
-                <SubCategory categoryList={categoryList}/>
+                <SubCategory categoryList={categoryList} mainCategory={'women'}/>
             </div>
 
             <div>
