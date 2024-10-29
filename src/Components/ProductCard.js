@@ -8,10 +8,10 @@ import './product-card.css';
 
 
 const ProductCard = (props) => {
-    const {item} = props;
+    const {item, flexbasis, minWidth} = props;
     return(
         <Link to={`/${item.category}/${item.prod_id}/${item.product_name}`} >
-        <div className='product-container' key={item.prod_id}>
+        <div className='product-container' key={item.prod_id} style={{flexBasis: flexbasis, minWidth: minWidth}}>
                     <div className='product-image product-choice'style={{backgroundImage: `url(${item.image_link})`}}>
                     <div>
                         <FontAwesomeIcon className='add-icon heart' icon={faHeart} />

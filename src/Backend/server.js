@@ -47,6 +47,15 @@ const fetchColors = (category, callback) => {
     })
 }
 
+//Fetch bestsellers (top 6)
+const fetchBestsellers = (category, callback) => {
+    const query = 'SELECT * FROM products JOIN bestsellers ON products.prod_id = bestsellers.prod_id WHERE category= ? ORDER BY bestsellers.quantities_sold DESC LIMIT 7';
+    const queryParams = [category];
+    con.query(query, queryParams, (err, results) => {
+        err ? callback(err, null) : callback(null, results);
+    })
+}
+
 const fetchProducts = ({category, minprice, maxprice, style, color, promotion, product_name, prod_id}, callback) => {
     let query = 'SELECT * FROM products WHERE category = ?';
     let queryParams = [category];
@@ -157,6 +166,25 @@ const server = http.createServer((req, res) => {
                     res.writeHead(500, {'content-type' : 'plain/text'});
                     res.end('Error in fetching products');
                 } else {
+                    res.writeHead(200, {'content-type' : 'application/json'});
+                    res.end(JSON.stringify(results));
+                }
+            })
+        })
+    } 
+    else if (req.url.startsWith('/bestsellers') && req.method === 'POST'){
+        let data = '';
+        req.on('data', chunk => 
+            data += chunk
+        )
+
+        req.on('end', () => {
+            fetchBestsellers(data, (err, results) =>{
+                if (err) {
+                    console.error('error in fetching bestsellers');
+                    res.writeHead(500, {'content-type' : 'plain/text'});
+                    res.end('error in fetching bestsellers');
+                } else{
                     res.writeHead(200, {'content-type' : 'application/json'});
                     res.end(JSON.stringify(results));
                 }

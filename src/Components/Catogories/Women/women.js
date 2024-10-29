@@ -71,6 +71,7 @@ const images = [
 const Women = () => {
     //State Variables
     const [categoryList, setCategoryList] = useState([]);
+    const [bestSellers, setBestSellers ] = useState([]);
     
 
 // Send POST request on initial render to get subcategories list
@@ -94,7 +95,26 @@ useEffect(() => {
     .catch(error => console.error('Error fetching subcategories:', error)); // Handle any errors
 }, []);
 
+//On initial render send POST request to fetch bestsellers
+useEffect(() => {
+    fetch('http://localhost:3001/bestsellers', {
+        method: 'POST',
+        body: 'women'
 
+    })
+    .then(response =>{
+        if (!response.ok) {
+            console.error('HTTP error status,', response.status);
+
+        } return response.json();
+    })
+    .then(data => {
+        setBestSellers(data);
+    })
+    .catch(error => {
+        console.error('Error in fetching bestsellers', error);
+    })
+}, [])
 
       return (
         <div>
@@ -106,7 +126,7 @@ useEffect(() => {
             </div>
             <div className='best-seller'>
                 <h2>BestSellers <FontAwesomeIcon icon={faFire} /> </h2>
-                <CarouselProduct productList={list} />
+                <CarouselProduct productList={bestSellers} />
             </div>
             <div className='sub-category'>
                 <SubCategory categoryList={categoryList} mainCategory={'women'}/>

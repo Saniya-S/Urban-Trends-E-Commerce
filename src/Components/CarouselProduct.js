@@ -28,9 +28,11 @@ const CarouselProduct = (props) => {
         <div className='carousel-product-container'>
             <FontAwesomeIcon onClick={handlePrev} className='prev-icon icon' icon={faCircleChevronLeft} />
             <FontAwesomeIcon onClick={handleNext} className='next-icon icon' icon={faCircleChevronRight} />
-            <div className="product-track" style={{ transform: `translateX(-${currentIndex * 33.33}%)` }}>
-            {productList && productList.map((item) => 
-                <ProductCard item={item} />
+            <div className="product-track" style={{ transform: `translateX(-${currentIndex * 23}%)` }}>
+            {productList && productList.map((item) =>
+                <div style={{flexBasis: '23%', flexShrink: '0'}}> 
+                <ProductCard item={item} flexbasis={'33.33%'} minWidth={'23%'}/>
+                </div>
             )}
             </div>
 
