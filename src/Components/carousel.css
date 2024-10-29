@@ -6,18 +6,21 @@
     height: 100%;
 }
 
-.buttons-container button{
+.carousel-button{
     border: none;
     margin: 5px;
-    border-radius: 100%;
-    color: #d6ccc4;
+    border-radius: 100% !important;
+    width: fit-content;
     opacity: 0.5;
+    background-color: none;
     
+
     
 }
 
 .next-prev-icon{
     font-size: 30px;
+    color: #d6ccc4;
     /* color: #d6ccc4; */
     
 }

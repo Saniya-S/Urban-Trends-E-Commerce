@@ -39,7 +39,7 @@ const ProductView = () => {
                 console.error('Error in fetching selected products:', error);
             })
         
-    }, [category, productName])
+    }, [category, productName, id])
 
     // useEffect(() => {
     //     console.log('Individual Products', individualProducts);

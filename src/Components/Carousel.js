@@ -44,11 +44,11 @@ const Carousel = (props) => {
                     <div className="buttons-container">
                         <div>
                         {/* Prev */}
-                        <button onClick={handlePrev}> <FontAwesomeIcon className='next-prev-icon' icon={faCircleChevronLeft} /></button>
+                        <button className='carousel-button' onClick={handlePrev}> <FontAwesomeIcon className='next-prev-icon ' icon={faCircleChevronLeft} /></button>
                         </div>
                     <div>
                         {/* Next */}
-                    <button onClick={handleNext}><FontAwesomeIcon className='next-prev-icon' icon={faCircleChevronRight} /></button>
+                    <button className='carousel-button' onClick={handleNext}><FontAwesomeIcon className='next-prev-icon ' icon={faCircleChevronRight} /></button>
                     </div>
                     
                    
@@ -57,7 +57,7 @@ const Carousel = (props) => {
                      {/* Dots Indicator */}
                      <div style={{display: displayDots ? 'inline-block' : 'none'}}>
                         {images.map((_, index) => 
-                            <button onClick={() => setCurrentIndex(index)} key={index} className={index === currentIndex ? 'dot active' : 'dot' } >
+                            <button  onClick={() => setCurrentIndex(index)} key={index} className={index === currentIndex ? 'dot active' : 'dot' } carousel-button >
 
                             </button>
                         )}
