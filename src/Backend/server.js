@@ -2,6 +2,7 @@
 
 const mysql = require('mysql2'); //library downloaded npm, used to create and interact with mysql database
 const http = require('http'); //built in module, used to create a HTTP server
+const bcrypt = require('bcryptjs');
 // const { fetchSubCategories } = require('./functions.js'); //importing fetchSuCaegories function
 
 //Creates a connection with the database
@@ -213,6 +214,35 @@ const server = http.createServer((req, res) => {
                     res.end('Successfully Subscribed!');
                 }
             })
+        })
+    }
+    else if (req.url.startsWith('/signup') && req.method === 'POST'){
+        let data = '';
+        req.on('data', chunk => 
+            data += chunk
+        )
+
+        req.on('end', () => {
+            const {fullname, username, email, password} = JSON.parse(data);
+            const query = 'INSERT INTO users (full_name, username, email, password_hash) VALUES (?, ?, ?, ?)';
+            bcrypt.hash(password, 10, (err, hash) => {
+                if (err){
+                    console.error('error in bcrypt');
+                } else {
+                    const queryParams = [fullname, username, email, hash];
+                    con.query(query, queryParams, (err) => {
+                        if (err) {
+                            res.writeHead(500,{ 'content-type': 'plain/text'});
+                            res.end('Error in creating new user!');
+                        }else{
+                            res.writeHead(200, {'content-type': 'plain/text'});
+                            res.end('New user successfully created!');
+                        }
+                    })
+                }
+            })
+
+
         })
     }
     

@@ -10,6 +10,7 @@ import Men from './Components/Catogories/Men/Men.js';
 import Accessories from './Components/Catogories/Accessories/Accessories.js';
 import CategoryView from './Components/Catogories/CategoryView.js';
 import ProductView from './Components/ProductView.js';
+import Signup from './Components/Signup/Signup.js';
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
             <Route path='/accessories' element={<Accessories />} />
             <Route path='/:category/:subCategory' element={<CategoryView />} />
             <Route path='/:category/:id/:productName' element={<ProductView />} />
+            <Route path='/sign-up' element={<Signup />} />
           </Route>
       </Routes>
     </Router>

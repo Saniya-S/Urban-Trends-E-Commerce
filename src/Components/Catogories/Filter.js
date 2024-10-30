@@ -21,7 +21,7 @@ const Filter = (props) => {
     useEffect(() => {
         fetch('http://localhost:3001/subcategory', {
             method: 'POST',
-            body: 'women'
+            body: category
         })
         .then(response => {
             if (!response.ok) {
