@@ -1,47 +1,46 @@
-import {Link} from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import {useState} from 'react'
 import './form.css';
 
-const Signup = () => {
-    const [fullname, setFullname] = useState('');
+const Login = () => {
+    const navigate = useNavigate();
     const [username, setUsername] = useState('');
-    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
     
-    const handleFullname = (e) => {
-        setFullname(e.target.value);
-    }
+    
     const handleUsername = (e) => {
         setUsername(e.target.value);
     }
-    const handleEmail = (e) => {
-        setEmail(e.target.value);
-    }
+    
     const handlePassword = (e) => {
         setPassword(e.target.value);
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        fetch('http://localhost:3001/signup', {
+        fetch('http://localhost:3001/login', {
             method: 'POST',
             body: JSON.stringify({
-                fullname: fullname,
                 username: username,
-                email: email,
                 password: password
             })
         }).then(response => {
             if (!response.ok){
-                console.error('HTTP ERROR status', response.status);
-                setMessage('Please check your details/ account already exist')
+                if(response.status === 404){
+                    setMessage('User Does not Exist!')
+                } else if (response.status === 401){
+                    setMessage('Invalid Credential!')
+                }
+                else{
+                    console.error('HTTP ERROR status', response.status);
+                    setMessage('An error occured! Try again later');
+                }
+                
             }else {
-                setFullname('');
                 setUsername('');
-                setEmail('');
                 setPassword('');
-                setMessage('Account Successfuly Created');
+                navigate('/');
             }
         }).catch(error => {
             console.error('error in adding new user', error)
@@ -50,19 +49,10 @@ const Signup = () => {
     return(
         <div>
             <div className='form-header'>
-                <div className='form-header-box'><h1>Signup</h1></div>
+                <div className='form-header-box'><h1>Login</h1></div>
                 <div className='form-header-box'>
                     <form onSubmit={handleSubmit}>
-                        <div className='form-container'>
-                            <div className='form-box'>
-                                <div>
-                                    <label>Enter your Full Name</label>
-                                </div>
-                                <div>
-                                    <input type='text' required value={fullname} onChange={handleFullname}/>
-                                </div>
-                            </div>
-                            
+                        <div className='form-container'>                            
                             <div className='form-box'>
                                 <div>
                                     <label>Enter a Username</label>
@@ -71,16 +61,7 @@ const Signup = () => {
                                     <input type='text' required value={username} onChange={handleUsername}/>
                                 </div>
                             </div>
-                            
-                            <div className='form-box'>
-                                <div>
-                                    <label>Enter your email</label>
-                                </div>
-                                <div>
-                                    <input type='email' required value={email} onChange={handleEmail}/>
-                                </div>
-                            </div>
-                            
+                                                       
                             <div className='form-box'>
                                 <div>
                                     <label>Enter a Password</label>
@@ -96,7 +77,6 @@ const Signup = () => {
                                 </div>
                                
                             </div>
-                            
                             <div className='message'>
                                 <div>
                                     <p>{message}</p>
@@ -105,12 +85,10 @@ const Signup = () => {
                             </div>
                             <div className='message link'>
                                 <div>
-                                    <Link to='/login'> Already have a login? Login instead! </Link>
+                                    <Link to='/sign-up'> Don't have an Account? Signup now! </Link>
                                 </div>
                                
                             </div>
-
-                            
                         </div>
                     </form>
                 </div>
@@ -119,4 +97,4 @@ const Signup = () => {
     )
 }
 
-export default Signup;
+export default Login;

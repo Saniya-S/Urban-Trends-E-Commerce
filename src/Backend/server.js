@@ -244,6 +244,34 @@ const server = http.createServer((req, res) => {
 
 
         })
+    } else if(req.url.startsWith('/login') && req.method === 'POST'){
+        let data = '';
+        req.on('data', chunk => 
+            data += chunk
+        )
+
+        req.on('end', () => {
+            const {username, password} = JSON.parse(data);
+            const query = "SELECT password_hash FROM users WHERE username = ?";
+            const queryParams = [username];
+            con.query(query, queryParams, (err, results) => {
+                if (err || results.length === 0) {
+                    res.writeHead('404', {'content-type': 'plain/text'});
+                    res.end('Not Found');
+                } else{
+                    const user = results[0];
+                    bcrypt.compare(password, user.password_hash, (err, isMatch) => {
+                        if (err || !isMatch){
+                            res.writeHead(401, {'content-type': 'text/plain'});
+                            res.end('Invalid credentials');
+                        } else{
+                            res.writeHead(200, {'content-type':'plain/text'});
+                            res.end('Login Successful')
+                        }
+                    })
+                }
+            })
+        })
     }
     
     else{

@@ -11,6 +11,7 @@ import Accessories from './Components/Catogories/Accessories/Accessories.js';
 import CategoryView from './Components/Catogories/CategoryView.js';
 import ProductView from './Components/ProductView.js';
 import Signup from './Components/Signup/Signup.js';
+import Login from './Components/Signup/Login.js';
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
             <Route path='/:category/:subCategory' element={<CategoryView />} />
             <Route path='/:category/:id/:productName' element={<ProductView />} />
             <Route path='/sign-up' element={<Signup />} />
+            <Route path='/login' element={<Login />} />
           </Route>
       </Routes>
     </Router>
