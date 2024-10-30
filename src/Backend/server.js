@@ -47,7 +47,7 @@ const fetchColors = (category, callback) => {
     })
 }
 
-//Fetch bestsellers (top 6)
+//Fetch bestsellers (top 7)
 const fetchBestsellers = (category, callback) => {
     const query = 'SELECT * FROM products JOIN bestsellers ON products.prod_id = bestsellers.prod_id WHERE category= ? ORDER BY bestsellers.quantities_sold DESC LIMIT 7';
     const queryParams = [category];
@@ -56,6 +56,7 @@ const fetchBestsellers = (category, callback) => {
     })
 }
 
+//Fetch Products
 const fetchProducts = ({category, minprice, maxprice, style, color, promotion, product_name, prod_id}, callback) => {
     let query = 'SELECT * FROM products WHERE category = ?';
     let queryParams = [category];
@@ -98,6 +99,7 @@ const fetchProducts = ({category, minprice, maxprice, style, color, promotion, p
         }
     });
 }
+
 
 
 const server = http.createServer((req, res) => {
@@ -187,6 +189,28 @@ const server = http.createServer((req, res) => {
                 } else{
                     res.writeHead(200, {'content-type' : 'application/json'});
                     res.end(JSON.stringify(results));
+                }
+            })
+        })
+    }
+    else if (req.url.startsWith('/subscribe') && req.method === 'POST'){
+        let data = '';
+
+        req.on('data', chunk => 
+            data += chunk
+        )
+        
+        req.on('end', () => {
+            const email = JSON.parse(data);
+            const query ='INSERT INTO newsletter_subscribers (email) VALUES (?)';
+            const queryParams = email;
+            con.query(query, queryParams, (err) => {
+                if (err) {
+                    res.writeHead(500);
+                    res.end('Subscription Failed!')
+                } else {
+                    res.writeHead(200);
+                    res.end('Successfully Subscribed!');
                 }
             })
         })

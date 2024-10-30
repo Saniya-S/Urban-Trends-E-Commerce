@@ -16,7 +16,7 @@ const CategoryView = () => {
         fetch('http://localhost:3001/products',{
             method: 'POST',
             body: JSON.stringify({
-                category: 'women',
+                category: category,
                 minprice: null,
                 maxprice: null,
                 style: subCategory,
@@ -50,7 +50,9 @@ const CategoryView = () => {
             <div className="category-view-container">
                 <div className="category-box">
                     {categoryProduct && categoryProduct.map((product) => 
-                        <ProductCard item={product} />
+                        <div style={{flexBasis: '33.33%'}}>
+                        <ProductCard item={product} minWidth={'33.33%'}/>
+                        </div>
                     )}
                 </div>
             </div>

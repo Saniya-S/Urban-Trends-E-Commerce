@@ -98,16 +98,18 @@ button{
 }
 
 .category-view-container{
-    display: flex;
+    
     
     margin: 2px 10px;
     
 }
 
 .category-box{
-    justify-content: center;
+    display: flex;
+    /* justify-content: space-between; */
     width: 100%;
-    flex-basis: 33.33%;
+    /* flex-basis: 33.33%; */
+    flex-wrap: wrap;
 }
 
 .back-icon{

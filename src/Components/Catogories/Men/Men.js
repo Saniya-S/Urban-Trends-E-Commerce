@@ -25,7 +25,7 @@ const images = [
 
 
 
-const Women = () => {
+const Men = () => {
     //State Variables
     const [categoryList, setCategoryList] = useState([]);
     const [bestSellers, setBestSellers ] = useState([]);
@@ -35,7 +35,7 @@ const Women = () => {
 useEffect(() => {
     fetch('http://localhost:3001/subcategory', {
       method: 'POST',
-      body: 'women'
+      body: 'Men'
     })
     .then(response => {
         // Check if response is OK (status code 200-299)
@@ -56,7 +56,7 @@ useEffect(() => {
 useEffect(() => {
     fetch('http://localhost:3001/bestsellers', {
         method: 'POST',
-        body: 'women'
+        body: 'Men'
 
     })
     .then(response =>{
@@ -76,7 +76,7 @@ useEffect(() => {
       return (
         <div>
             <div className="category-heading">
-                <h1>Women</h1>
+                <h1>Men</h1>
             </div>
             <div className='cat-banner'>
                 <Carousel displayDots={true} images={images} height={'400px'} size={'cover'} />
@@ -86,16 +86,16 @@ useEffect(() => {
                 <CarouselProduct productList={bestSellers} />
             </div>
             <div className='sub-category'>
-                <SubCategory categoryList={categoryList} mainCategory={'women'}/>
+                <SubCategory categoryList={categoryList} mainCategory={'Men'}/>
             </div>
 
             <div>
                 <div>
-                    <Filter category= {'women'}/>
+                    <Filter category= {'Men'}/>
                 </div>
             </div>
         </div>
     )
 }
 
-export default Women; 
+export default Men; 
