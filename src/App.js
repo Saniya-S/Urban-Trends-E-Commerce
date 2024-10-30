@@ -2,14 +2,14 @@
 import './App.css';
 //react-router-dom
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Layout from './Components/Layout';
-import Home from './Components/Homepage/Home';
-import Kids from './Components/Catogories/Kids/Kids';
-import Women from './Components/Catogories/Women/women';
-import Men from './Components/Catogories/Men/Men';
-import Accessories from './Components/Catogories/Accessories/Accessories';
-import CategoryView from './Components/Catogories/CategoryView';
-import ProductView from './Components/ProductView';
+import Layout from './Components/Layout.js';
+import Home from './Components/Homepage/Home.js';
+import Kids from './Components/Catogories/Kids/Kids.js';
+import Women from './Components/Catogories/Women/women.js';
+import Men from './Components/Catogories/Men/Men.js';
+import Accessories from './Components/Catogories/Accessories/Accessories.js';
+import CategoryView from './Components/Catogories/CategoryView.js';
+import ProductView from './Components/ProductView.js';
 
 
 function App() {
