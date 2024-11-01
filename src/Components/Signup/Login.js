@@ -1,5 +1,7 @@
 import { useNavigate, Link } from 'react-router-dom';
-import {useState} from 'react'
+import {useState, useContext} from 'react';
+import { AuthContext } from '../Context/AuthenticationContext';
+
 import './form.css';
 
 const Login = () => {
@@ -8,6 +10,8 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
     
+    //context
+    const {setIsAuthenticated, setAccUsername} = useContext(AuthContext);
     
     const handleUsername = (e) => {
         setUsername(e.target.value);
@@ -40,9 +44,15 @@ const Login = () => {
             }else {
                 setUsername('');
                 setPassword('');
-                navigate('/');
+                return response.json();
             }
-        }).catch(error => {
+        }).then(data => {
+            setAccUsername(data.username);
+            setIsAuthenticated(true);
+            navigate('/');
+        })
+        
+        .catch(error => {
             console.error('error in adding new user', error)
         })
     }
