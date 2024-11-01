@@ -49,11 +49,19 @@ const Navbar = () => {
                         </div>
                 </div>
                 <div>
-                    <div className='account-container'>
+                    <div className='show-small'>
+                    <div className='account-container' style={{display: isAuthenticated ? 'none' : 'flex'}}>
                         <Link to='login'>Login</Link>
                         <p> / </p>
                         <Link to='sign-up'>Signup</Link>
                     </div>
+
+                    <div className='profile' style={{display: isAuthenticated ? 'flex' : 'none'}}>
+                            <div><h2>Hello @{accUsername}!</h2></div>
+                            <div><FontAwesomeIcon style={{cursor: 'pointer'}} onClick={handleLogout} className='icon' icon={faRightFromBracket} /></div>
+                    </div>
+                    </div>
+                    
                 <div className='icons-container'>
                     <div className='show'>
                         <div className='profile' style={{display: isAuthenticated ? 'none' : 'flex'}}>

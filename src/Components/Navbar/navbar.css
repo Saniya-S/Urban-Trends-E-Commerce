@@ -102,11 +102,19 @@ ul{
 
 .show{
     display: none;
+    
 }
 
 .profile{
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.show-small{
+    display: flex;
+    
+    justify-content: flex-end;
     align-items: center;
 
 }
@@ -170,6 +178,15 @@ ul{
     }
     .toggle{
         background-color: #d6ccc4;
+    }
+    .show-small{
+        display: none;
+    }
+    .profile{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    
     }
 }
 
