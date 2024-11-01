@@ -56,6 +56,13 @@ const fetchBestsellers = (category, callback) => {
         err ? callback(err, null) : callback(null, results);
     })
 }
+//Fetch new arrivals
+const fetchNewArrivals = (callback) => {
+    const query = "SELECT * FROM products WHERE tags LIKE '%new%'";
+    con.query(query, (err, results) => {
+        err ? callback(err, null) : callback(null, results);
+    })
+}
 
 //Fetch Products
 const fetchProducts = ({category, minprice, maxprice, style, color, promotion, product_name, prod_id}, callback) => {
@@ -274,6 +281,22 @@ const server = http.createServer((req, res) => {
                 }
             })
         })
+    }
+    else if (req.url.startsWith('/newArrivals') && req.method === 'POST'){
+
+        
+            fetchNewArrivals((err, results) =>{
+                if (err) {
+                    console.error('error in fetching new arrivals');
+                    res.writeHead(500, {'content-type' : 'plain/text'});
+                    res.end('error in fetching new arrivals');
+                } else{
+                    console.log('arrivals', results);
+                    res.writeHead(200, {'content-type' : 'application/json'});
+                    res.end(JSON.stringify(results));
+                }
+            })
+        
     }
     
     else{
