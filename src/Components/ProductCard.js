@@ -11,7 +11,7 @@ import './product-card.css';
 
 const ProductCard = (props) => {
     const {item, flexbasis, minWidth} = props;
-    const { userId, isAuthenticated } = useContext(AuthContext);
+    const { userId, isAuthenticated, wishlist } = useContext(AuthContext);
     const [changeColor, setChangeColor] = useState(false);
     const [lastAction, setLastAction] = useState(null);
     const [counter, setCounter] = useState(0);
@@ -46,6 +46,11 @@ const ProductCard = (props) => {
         
     }, [counter, userId, item.prod_id, isAuthenticated])
 
+    useEffect(() => {
+        setChangeColor(wishlist.some((list) => list.prod_id === item.prod_id));
+    }, [setChangeColor, item.prod_id, wishlist])
+
+    
     // Toggle wishlist status
     const handleWishlist = () => {
         if(isAuthenticated){
@@ -81,8 +86,8 @@ const ProductCard = (props) => {
                 </div>
             </div>
             </div>
-            <div>
-                {message};
+            <div className='wishlist-message'>
+                {message}
             </div>
             
             </>

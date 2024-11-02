@@ -339,6 +339,7 @@ const server = http.createServer((req, res) => {
                     }
                 } )
             } else if (action === 'insert'){
+                console.log('action is insert');
                 const query = 'INSERT into wishlist (user_id, prod_id) VALUES (?, ?)';
                 const queryParams = [userId, prodId];
 
@@ -363,6 +364,20 @@ const server = http.createServer((req, res) => {
                     } else{
                         res.writeHead(200, {'content-type':'text/plain'});
                         res.end('Product successfully deleted from wishlist');
+                    }
+                })
+            } else if (action === 'wishlist'){
+                const query = 'SELECT prod_id from wishlist WHERE user_id= ?';
+                const queryParams = [userId];
+
+                con.query(query, queryParams, (err, results) => {
+                    if (err) {
+                        res.writeHead(500, {'content-type':'text/plain'});
+                        res.end('Error fetching list of wishlist');
+
+                    } else{
+                        res.writeHead(200, {'content-type' : 'application/json'});
+                        res.end(JSON.stringify(results));
                     }
                 })
             }
