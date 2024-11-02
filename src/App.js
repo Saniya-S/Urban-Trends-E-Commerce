@@ -12,6 +12,7 @@ import CategoryView from './Components/Catogories/CategoryView.js';
 import ProductView from './Components/ProductView.js';
 import Signup from './Components/Signup/Signup.js';
 import Login from './Components/Signup/Login.js';
+import WishList from './Components/Wishlist/Wishlist.js';
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
             <Route path='/:category/:id/:productName' element={<ProductView />} />
             <Route path='/sign-up' element={<Signup />} />
             <Route path='/login' element={<Login />} />
+            <Route path='/wishlist' element={<WishList />} />
           </Route>
       </Routes>
     </Router>

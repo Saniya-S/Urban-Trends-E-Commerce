@@ -76,7 +76,7 @@ useEffect(() => {
       return (
         <div>
             <div className="category-heading">
-                <h1>Kids</h1>
+                <h1>Kids </h1>
             </div>
             <div className='cat-banner'>
                 <Carousel displayDots={true} images={images} height={'400px'} size={'cover'} />

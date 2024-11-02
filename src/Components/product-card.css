@@ -5,6 +5,7 @@
     justify-content: center;
     align-items: center;
     margin: 5px;
+    
 }
 
 .product-image{
@@ -15,10 +16,23 @@
     
 }
 
+.product-choice-box{
+    width: 90%;
+    display: flex;
+    justify-content: flex-end;
+    
+    
+}
 .product-choice{
     display: flex;
-    justify-content: end;
-    align-items: end;
+    justify-content: flex-end;
+    align-items: center;
+    background-color: #d6ccc4;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    
+    /* border: 1px solid black; */
+    
+    
 }
 
 .add-icon{
@@ -27,10 +41,16 @@
     margin: 10px;
     text-shadow: 3px 3px 6px black;
     cursor: pointer;
+    z-index: 3;
+    
 }
 
 .heart{
     color: white;
     
 
+}
+
+.wishlist-message{
+    margin-top: 10px;
 }

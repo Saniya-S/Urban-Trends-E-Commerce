@@ -108,15 +108,33 @@ const fetchProducts = ({category, minprice, maxprice, style, color, promotion, p
     });
 }
 
+//fetch wishlist
+const fetchWishList = (userId, callback) => {
+    const query = 'SELECT p.prod_id, p.product_name, p.price, p.image_link from products p JOIN wishlist w ON p.prod_id = w.prod_id WHERE w.user_id= ?'
+    const queryParams = [userId];
+
+    con.query(query, queryParams, (err, results) => {
+        err ? callback(err, null) : callback(null, results);
+    })
+};
+
+
+
 
 
 const server = http.createServer((req, res) => {
     console.log(`Request received at: ${req.url} with method: ${req.method}`); //logs the URL and Method used //🔴
 
     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000'); // Adjust origin if needed
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
+    // Handle preflight requests
+    if (req.method === 'OPTIONS') {
+        res.writeHead(204);
+        res.end();
+        return;
+    }
     //fetching subcategories
     if (req.url.startsWith('/subcategory') && req.method === 'POST'){
         console.log('this is before the function'); //🔴
@@ -173,7 +191,7 @@ const server = http.createServer((req, res) => {
             fetchProducts(requestData, (err, results) => {
                 if (err) {
                     console.error('error in fetching products');
-                    res.writeHead(500, {'content-type' : 'plain/text'});
+                    res.writeHead(500, {'content-type' : 'text/plain'});
                     res.end('Error in fetching products');
                 } else {
                     res.writeHead(200, {'content-type' : 'application/json'});
@@ -192,7 +210,7 @@ const server = http.createServer((req, res) => {
             fetchBestsellers(data, (err, results) =>{
                 if (err) {
                     console.error('error in fetching bestsellers');
-                    res.writeHead(500, {'content-type' : 'plain/text'});
+                    res.writeHead(500, {'content-type' : 'text/plain'});
                     res.end('error in fetching bestsellers');
                 } else{
                     res.writeHead(200, {'content-type' : 'application/json'});
@@ -239,10 +257,10 @@ const server = http.createServer((req, res) => {
                     const queryParams = [fullname, username, email, hash];
                     con.query(query, queryParams, (err) => {
                         if (err) {
-                            res.writeHead(500,{ 'content-type': 'plain/text'});
+                            res.writeHead(500,{ 'content-type': 'text/plain'});
                             res.end('Error in creating new user!');
                         }else{
-                            res.writeHead(200, {'content-type': 'plain/text'});
+                            res.writeHead(200, {'content-type': 'text/plain'});
                             res.end('New user successfully created!');
                         }
                     })
@@ -259,11 +277,11 @@ const server = http.createServer((req, res) => {
 
         req.on('end', () => {
             const {username, password} = JSON.parse(data);
-            const query = "SELECT username, password_hash FROM users WHERE username = ?";
+            const query = "SELECT user_id, username, password_hash FROM users WHERE username = ?";
             const queryParams = [username];
             con.query(query, queryParams, (err, results) => {
                 if (err || results.length === 0) {
-                    res.writeHead('404', {'content-type': 'plain/text'});
+                    res.writeHead('404', {'content-type': 'text/plain'});
                     res.end('Not Found');
                 } else{
                     
@@ -275,7 +293,7 @@ const server = http.createServer((req, res) => {
                         } else{
                             
                             res.writeHead(200, {'content-type':'application/json'});
-                            res.end(JSON.stringify({ username: user.username}));
+                            res.end(JSON.stringify({ username: user.username, userId : user.user_id}));
                         }
                     })
                 }
@@ -288,7 +306,7 @@ const server = http.createServer((req, res) => {
             fetchNewArrivals((err, results) =>{
                 if (err) {
                     console.error('error in fetching new arrivals');
-                    res.writeHead(500, {'content-type' : 'plain/text'});
+                    res.writeHead(500, {'content-type' : 'text/plain'});
                     res.end('error in fetching new arrivals');
                 } else{
                     console.log('arrivals', results);
@@ -297,6 +315,58 @@ const server = http.createServer((req, res) => {
                 }
             })
         
+    }
+    else if (req.url.startsWith('/wishlist') && req.method === 'POST'){
+        let data = '';
+        req.on('data', chunk => data += chunk);
+
+        req.on('end', () => {
+            const {userId, prodId, action} = JSON.parse(data);
+            console.log(userId, prodId, action);
+            if (action === 'fetch'){
+                fetchWishList(userId, prodId,(err, results) => {
+                    if (err){
+                        res.writeHead(500, {'content-type': 'text/plain'});
+                        res.end('Error in fetching wishlist items')
+                    } else{
+                        if (results.length === 0){
+                            res.writeHead(404, {'content-type': 'text/plain'});
+                            res.end('Not Found');
+                        }else{
+                            res.writeHead(200, {'content-type': 'application/json'});
+                            res.end(JSON.stringify(results));
+                        }
+                    }
+                } )
+            } else if (action === 'insert'){
+                const query = 'INSERT into wishlist (user_id, prod_id) VALUES (?, ?)';
+                const queryParams = [userId, prodId];
+
+                con.query(query, queryParams, (err) => {
+                    if (err){
+                        res.writeHead(500, {'content-type' : 'text/plain'});
+                        res.end('Error in adding product to wishlist');
+                    } else{
+                        res.writeHead(200, {'content-type':'text/plain'});
+                        res.end('Product successfully added to wishlist');
+                    }
+                })
+            }
+             else if (action === 'delete'){
+                const query = 'DELETE FROM wishlist WHERE user_id = ?  AND prod_id = ?';
+                const queryParams = [userId, prodId];
+
+                con.query(query, queryParams, (err) => {
+                    if (err){
+                        res.writeHead(500, {'content-type' : 'text/plain'});
+                        res.end('Error in deleting product to wishlist');
+                    } else{
+                        res.writeHead(200, {'content-type':'text/plain'});
+                        res.end('Product successfully deleted from wishlist');
+                    }
+                })
+            }
+        })
     }
     
     else{

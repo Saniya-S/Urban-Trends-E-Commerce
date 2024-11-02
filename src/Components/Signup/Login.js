@@ -11,7 +11,7 @@ const Login = () => {
     const [message, setMessage] = useState('');
     
     //context
-    const {setIsAuthenticated, setAccUsername} = useContext(AuthContext);
+    const {setIsAuthenticated, setAccUsername, setUserId} = useContext(AuthContext);
     
     const handleUsername = (e) => {
         setUsername(e.target.value);
@@ -48,6 +48,7 @@ const Login = () => {
             }
         }).then(data => {
             setAccUsername(data.username);
+            setUserId(data.userId);
             setIsAuthenticated(true);
             navigate('/');
         })

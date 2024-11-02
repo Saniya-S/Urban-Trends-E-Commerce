@@ -79,7 +79,10 @@ const Navbar = () => {
                         <Search />
                     </div>
                     <div className='icon'>
-                        <FontAwesomeIcon icon={faHeart} />
+                        <Link to='/wishlist'>
+                            <FontAwesomeIcon icon={faHeart} />
+                        </Link>
+                        
                     </div>
                     <div className='icon'>
                         <FontAwesomeIcon icon={faCartShopping} />
