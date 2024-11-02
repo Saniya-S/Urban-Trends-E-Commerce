@@ -9,8 +9,18 @@ const AuthContextProvider = ({ children }) => {
     const [userId, setUserId] = useState(null);
     const [wishlist, setWishlist] = useState([]);
 
+    // In AuthContext.js
+const addToWishlist = (prodId) => {
+    setWishlist((prevWishlist) => [...prevWishlist, { prod_id: prodId }]);
+};
+
+const removeFromWishlist = (prodId) => {
+    setWishlist((prevWishlist) => prevWishlist.filter(item => item.prod_id !== prodId));
+};
+
+
     return (
-        <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated, accUsername, setAccUsername, userId, setUserId, wishlist, setWishlist }}>
+        <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated, accUsername, setAccUsername, userId, setUserId, wishlist, setWishlist, addToWishlist, removeFromWishlist }}>
             {children}
         </AuthContext.Provider>
     );

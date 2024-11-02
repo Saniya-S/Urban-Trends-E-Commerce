@@ -110,7 +110,7 @@ const fetchProducts = ({category, minprice, maxprice, style, color, promotion, p
 
 //fetch wishlist
 const fetchWishList = (userId, callback) => {
-    const query = 'SELECT p.prod_id, p.product_name, p.price, p.image_link from products p JOIN wishlist w ON p.prod_id = w.prod_id WHERE w.user_id= ?'
+    const query = 'SELECT p.prod_id, p.product_name, p.price, p.image_link, p.category, w.user_id from products p JOIN wishlist w ON p.prod_id = w.prod_id WHERE w.user_id= ?'
     const queryParams = [userId];
 
     con.query(query, queryParams, (err, results) => {
@@ -324,7 +324,7 @@ const server = http.createServer((req, res) => {
             const {userId, prodId, action} = JSON.parse(data);
             console.log(userId, prodId, action);
             if (action === 'fetch'){
-                fetchWishList(userId, prodId,(err, results) => {
+                fetchWishList(userId, (err, results) => {
                     if (err){
                         res.writeHead(500, {'content-type': 'text/plain'});
                         res.end('Error in fetching wishlist items')

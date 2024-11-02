@@ -1,7 +1,6 @@
 import { useParams, Link } from "react-router-dom";
 import './product-view.css';
 import { useState, useEffect, useContext } from 'react';
-// Font-awesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faCartArrowDown, faCircleLeft } from '@fortawesome/free-solid-svg-icons';
 import { AuthContext } from './Context/AuthenticationContext';
@@ -9,11 +8,11 @@ import { AuthContext } from './Context/AuthenticationContext';
 const ProductView = () => {
     const { id, category, productName } = useParams();
     const [individualProduct, setIndividualProduct] = useState({});
-    const { userId, isAuthenticated, wishlist } = useContext(AuthContext);
+    const { userId, isAuthenticated, wishlist, addToWishlist, removeFromWishlist } = useContext(AuthContext);
     const [changeColor, setChangeColor] = useState(false);
     const [message, setMessage] = useState('');
 
-    // Request to fetch selected product
+    // Fetch selected product details when component loads
     useEffect(() => {
         fetch('http://localhost:3001/products', {
             method: 'POST',
@@ -37,20 +36,19 @@ const ProductView = () => {
         .catch(error => console.error('Error in fetching selected products:', error));
     }, [category, productName, id]);
 
-    // Check if the product is in the wishlist when the component loads
+    // Check if the product is in the wishlist
     useEffect(() => {
         const productId = Number(id);
-        const isInWishlist = wishlist.some((item) => item.prod_id === productId);
-        console.log(isInWishlist);
-        console.log('wishlist', wishlist);
-        console.log('id', id);
+        const isInWishlist = wishlist.some((item) => Number(item.prod_id) === productId);
         setChangeColor(isInWishlist);
     }, [id, wishlist]);
 
-    // Toggle wishlist status
+    // Toggle wishlist status on button click
     const handleWishlist = () => {
         if (isAuthenticated) {
-            const action = changeColor ? 'insert' : 'delete';
+            const action = changeColor ? 'delete' : 'insert';
+            setChangeColor(!changeColor);
+
             fetch('http://localhost:3001/wishlist', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -62,12 +60,21 @@ const ProductView = () => {
             })
             .then(response => {
                 if (response.ok) {
-                    setChangeColor(!changeColor);
+                    console.log(`Wishlist ${action} success`);
+                    if (action === 'insert') {
+                        addToWishlist(id); // Update wishlist in context for UI update
+                    } else {
+                        removeFromWishlist(id); // Remove from wishlist in context
+                    }
                 } else {
                     console.error('Error in wishlist request:', response.status);
+                    setChangeColor(!changeColor); // Revert color if request fails
                 }
             })
-            .catch(error => console.error('Error in wishlist request:', error));
+            .catch(error => {
+                console.error('Error in wishlist request:', error);
+                setChangeColor(!changeColor); // Revert color if fetch fails
+            });
         } else {
             setMessage('Please login to add to wishlist');
         }
