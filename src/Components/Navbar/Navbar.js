@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import {useState, useContext} from 'react';
+import {useState, useContext, useEffect} from 'react';
 //Logo
 import logo from '../../Assets/Urban Trends.png';
 //CSS 
@@ -20,8 +20,32 @@ const Navbar = () => {
     const [isToggle, setIsToggle] = useState(false);
 
     //Context
-    const {accUsername, isAuthenticated, setIsAuthenticated} = useContext(AuthContext);
+    const {accUsername, isAuthenticated, setIsAuthenticated, userId, setWishlist} = useContext(AuthContext);
     console.log(accUsername);
+
+    useEffect(() => {
+        if (isAuthenticated){
+            fetch('http://localhost:3001/wishlist', {
+                method: 'POST',
+                body: JSON.stringify({
+                    userId:userId,
+                    action: 'wishlist'
+                })
+            }).then(response => {
+                if (!response.ok){
+                    console.error('http error', response.status);
+                }else{
+                    return response.json();
+                }
+            }).then(data => {
+                setWishlist(data);
+            }).catch(error => {
+                console.error('error in fechting list of wishlist', error);
+            })
+        } else{
+            return;
+        }
+    }, [isAuthenticated, setWishlist, userId]);
 
     //toggle function
     const handleToggle = () => {
