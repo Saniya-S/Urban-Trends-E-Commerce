@@ -14,6 +14,7 @@ import Signup from './Components/Signup/Signup.js';
 import Login from './Components/Signup/Login.js';
 import WishList from './Components/Wishlist/Wishlist.js';
 import Cart from './Components/Cart/Cart.js';
+import Result from './Components/Search/Result.js';
 
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
             <Route path='/login' element={<Login />} />
             <Route path='/wishlist' element={<WishList />} />
             <Route path='/cart' element={<Cart />} />
+            <Route path='/:searchQuery' element={<Result />} />
           </Route>
       </Routes>
     </Router>

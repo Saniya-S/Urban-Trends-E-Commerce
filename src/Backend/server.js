@@ -464,6 +464,31 @@ const server = http.createServer((req, res) => {
                 })
             }
         })
+    } else if (req.url.startsWith('/search') && req.method === 'POST'){
+        let data = '';
+
+        req.on('data', chunk => data += chunk);
+
+        req.on('end', () => {
+            const query = 'SELECT * FROM products WHERE product_name LIKE ? OR tags LIKE ? OR description LIKE ?';
+            const queryParams = [`%${data}%`, `%${data}%`, `%${data}%`];
+
+            con.query(query, queryParams, (err, results) => {
+                if (err){
+                    res.writeHead(500, {'content-type':'text/plain'});
+                    res.end('Error in fetching products based on search results');
+                } else {
+                    if(results.length === 0){
+                        res.writeHead(404, {'content-type':'text/plain'});
+                        res.end('Not found');
+                    }else{
+                        res.writeHead(200, {'content-type': 'application/json'});
+                        res.end(JSON.stringify(results));
+                    }
+                    
+                }
+            })
+        })
     }
     
     else{
