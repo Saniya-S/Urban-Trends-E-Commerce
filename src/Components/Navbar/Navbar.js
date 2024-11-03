@@ -20,7 +20,7 @@ const Navbar = () => {
     const [isToggle, setIsToggle] = useState(false);
 
     //Context
-    const {accUsername, isAuthenticated, setIsAuthenticated, userId, setWishlist} = useContext(AuthContext);
+    const {accUsername, isAuthenticated, setIsAuthenticated, userId, setWishlist, setCartList} = useContext(AuthContext);
     console.log(accUsername);
 
     useEffect(() => {
@@ -46,6 +46,30 @@ const Navbar = () => {
             return;
         }
     }, [isAuthenticated, setWishlist, userId]);
+
+    useEffect(() => {
+        if (isAuthenticated){
+            fetch('http://localhost:3001/cart', {
+                method: 'POST',
+                body: JSON.stringify({
+                    userId:userId,
+                    action: 'cartlist'
+                })
+            }).then(response => {
+                if (!response.ok){
+                    console.error('http error', response.status);
+                }else{
+                    return response.json();
+                }
+            }).then(data => {
+                setCartList(data);
+            }).catch(error => {
+                console.error('error in fechting list of cartlist', error);
+            })
+        } else{
+            return;
+        }
+    }, [isAuthenticated, setCartList, userId]);
 
     //toggle function
     const handleToggle = () => {
@@ -109,7 +133,9 @@ const Navbar = () => {
                         
                     </div>
                     <div className='icon'>
+                        <Link to='/cart'>
                         <FontAwesomeIcon icon={faCartShopping} />
+                        </Link>
                     </div>
                     <div onClick={handleToggle} className='hamburger-container'>
                         <div>

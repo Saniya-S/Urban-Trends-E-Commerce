@@ -8,9 +8,14 @@ import { AuthContext } from './Context/AuthenticationContext';
 const ProductView = () => {
     const { id, category, productName } = useParams();
     const [individualProduct, setIndividualProduct] = useState({});
-    const { userId, isAuthenticated, wishlist, addToWishlist, removeFromWishlist } = useContext(AuthContext);
+    const { userId, isAuthenticated, wishlist, addToWishlist, removeFromWishlist, addToCartlist, removeFromCartlist, cartList } = useContext(AuthContext);
     const [changeColor, setChangeColor] = useState(false);
     const [message, setMessage] = useState('');
+
+    //cart variables
+    const [selectedColor, setSelectedColor] = useState(null);
+    const [changeCartColor, setChangeCartColor] = useState(false);
+    const [cartMessage, setCartMessage] = useState('');
 
     // Fetch selected product details when component loads
     useEffect(() => {
@@ -42,6 +47,13 @@ const ProductView = () => {
         const isInWishlist = wishlist.some((item) => Number(item.prod_id) === productId);
         setChangeColor(isInWishlist);
     }, [id, wishlist]);
+
+    // Check if the product is in the cartlist
+    useEffect(() => {
+        const productId = Number(id);
+        const isInCartlist = cartList.some((item) => Number(item.prod_id) === productId);
+        setChangeCartColor(isInCartlist);
+    }, [id, cartList]);
 
     // Toggle wishlist status on button click
     const handleWishlist = () => {
@@ -80,6 +92,45 @@ const ProductView = () => {
         }
     };
 
+
+    //handleCart
+    const handleCart = () => {
+        if (isAuthenticated){
+            const action = changeCartColor ? 'delete' : 'insert';
+            setChangeCartColor(!changeCartColor);
+
+            fetch('http://localhost:3001/cart', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    userId: userId,
+                    prodId: id,
+                    color: selectedColor,
+                    quantity: null,
+                    action: action
+                })
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log(`Wishlist ${action} success`);
+                    if (action === 'insert') {
+                        addToCartlist(id); // Update Cartlist in context for UI update
+                    } else {
+                        removeFromCartlist(id); // Remove from Cartlist in context
+                    }
+                } else {
+                    console.error('Error in wishlist request:', response.status);
+                    setChangeCartColor(!changeCartColor); // Revert color if request fails
+                }
+            })
+            .catch(error => {
+                console.error('Error in wishlist request:', error);
+                setChangeCartColor(!changeCartColor); // Revert color if fetch fails
+            });
+        } else{
+            setCartMessage('Please Login to add to cart.')
+        }
+    }
     return (
         <div style={{ height: '100%' }}>
             <div className="path">
@@ -105,15 +156,17 @@ const ProductView = () => {
                         <p>{individualProduct.description}</p>
                     </div>
                     <div>
+                        <form>
                         <h3>Colors Available:</h3>
                         <div>
                             {individualProduct.colors && individualProduct.colors.split(',').map((color) => 
                                 <div key={color}>
-                                    <input type="checkbox" value={color} /> 
+                                    <input type="radio" name="color" value={color} checked={selectedColor === color} onChange={() => setSelectedColor(color)} /> 
                                     <label>{color}</label>
                                 </div>
                             )}
                         </div>
+                        </form>
                     </div>
 
                     {/* Buttons */}
@@ -124,10 +177,11 @@ const ProductView = () => {
                             </button>
                         </div>
                         <div>
-                            <button>Cart <FontAwesomeIcon icon={faCartArrowDown} /></button>
+                            <button onClick={handleCart}>Cart <FontAwesomeIcon icon={faCartArrowDown} style={{ color: changeCartColor && isAuthenticated ? 'green' : 'white' }} /></button>
                         </div>
                     </div>
                     <div className='wishlist-message'>{message}</div>
+                    <div className='wishlist-message'>{cartMessage}</div>
                 </div>
             </div>
         </div>

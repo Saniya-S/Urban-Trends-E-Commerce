@@ -7,15 +7,27 @@ import './product-card.css';
 
 const ProductCard = (props) => {
     const { item, flexbasis, minWidth } = props;
-    const { userId, isAuthenticated, wishlist, addToWishlist, removeFromWishlist } = useContext(AuthContext);
+    const { userId, isAuthenticated, wishlist, addToWishlist, removeFromWishlist, addToCartlist, removeFromCartlist, cartList } = useContext(AuthContext);
     const [changeColor, setChangeColor] = useState(false);
     const [message, setMessage] = useState('');
+
+    //cart variables
+    
+    const [changeCartColor, setChangeCartColor] = useState(false);
+    const [cartMessage, setCartMessage] = useState('');
 
     // Check if the item is in the wishlist when the component loads
     useEffect(() => {
         const isInWishlist = wishlist.some((list) => Number(list.prod_id) === Number(item.prod_id));
         setChangeColor(isInWishlist);
     }, [item.prod_id, wishlist]);
+
+    // Check if the product is in the cartlist
+    useEffect(() => {
+            const productId = Number(item.prod_id);
+            const isInCartlist = cartList.some((item) => Number(item.prod_id) === productId);
+            setChangeCartColor(isInCartlist);
+    }, [item.prod_id, cartList]);
 
     // Toggle wishlist status on button click
     const handleWishlist = () => {
@@ -51,6 +63,45 @@ const ProductCard = (props) => {
         });
     };
 
+     //handleCart
+     const handleCart = () => {
+        if (isAuthenticated){
+            const action = changeCartColor ? 'delete' : 'insert';
+            setChangeCartColor(!changeCartColor);
+
+            fetch('http://localhost:3001/cart', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    userId: userId,
+                    prodId: item.prod_id,
+                    color: null,
+                    quantity: null,
+                    action: action
+                })
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log(`Wishlist ${action} success`);
+                    if (action === 'insert') {
+                        addToCartlist(item.prod_id); // Update Cartlist in context for UI update
+                    } else {
+                        removeFromCartlist(item.prod_id); // Remove from Cartlist in context
+                    }
+                } else {
+                    console.error('Error in wishlist request:', response.status);
+                    setChangeCartColor(!changeCartColor); // Revert color if request fails
+                }
+            })
+            .catch(error => {
+                console.error('Error in wishlist request:', error);
+                setChangeCartColor(!changeCartColor); // Revert color if fetch fails
+            });
+        } else{
+            setCartMessage('Please Login to add to cart.')
+        }
+    }
+
     return (
         <>
             <Link to={`/${item.category}/${item.prod_id}/${item.product_name}`}>
@@ -72,11 +123,12 @@ const ProductCard = (props) => {
                         />
                     </div>
                     <div>
-                        <FontAwesomeIcon className='add-icon' icon={faCartArrowDown} />
+                        <FontAwesomeIcon className='add-icon' onClick={handleCart} style={{ color: changeCartColor && isAuthenticated ? 'green' : 'white' }}  icon={faCartArrowDown} />
                     </div>
                 </div>
             </div>
             <div className='wishlist-message'>{message}</div>
+            <div className='wishlist-message'>{cartMessage}</div>
         </>
     );
 };

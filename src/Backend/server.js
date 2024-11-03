@@ -122,6 +122,8 @@ const fetchWishList = (userId, callback) => {
 
 
 
+
+
 const server = http.createServer((req, res) => {
     console.log(`Request received at: ${req.url} with method: ${req.method}`); //logs the URL and Method used //🔴
 
@@ -377,6 +379,86 @@ const server = http.createServer((req, res) => {
 
                     } else{
                         res.writeHead(200, {'content-type' : 'application/json'});
+                        res.end(JSON.stringify(results));
+                    }
+                })
+            }
+        })
+    }
+    else if(req.url.startsWith('/cart') && req.method === 'POST'){
+        let data = '';
+        req.on('data', chunk => data += chunk);
+
+        req.on('end', () => {
+            const {userId, prodId, color, quantity, action} = JSON.parse(data);
+            if (action === 'insert') {
+                // Start building the query
+                let query = 'INSERT INTO cart (user_id, prod_id';
+                let queryParams = [userId, prodId];
+        
+                // Conditionally add fields if they are not null or undefined
+                if (color !== null && color !== undefined) {
+                    query += ', color';
+                    queryParams.push(color);
+                }
+        
+                if (quantity !== null && quantity !== undefined) {
+                    query += ', quantity';
+                    queryParams.push(quantity);
+                }
+        
+                // Complete the query for values
+                query += ') VALUES (?, ?';
+                if (color !== null && color !== undefined) query += ', ?';
+                if (quantity !== null && quantity !== undefined) query += ', ?';
+                query += ')';
+        
+                // Execute the query
+                con.query(query, queryParams, (err) => {
+                    if (err) {
+                        res.writeHead(500, { 'content-type': 'text/plain' });
+                        res.end('Error in inserting product to cart');
+                    } else {
+                        res.writeHead(200, { 'content-type': 'text/plain' });
+                        res.end('Success in adding product to cart');
+                    }
+                });
+            } else if (action === 'delete'){
+                let query = 'DELETE FROM cart WHERE user_id= ? AND prod_id= ?';
+                const queryParams = [userId, prodId];
+
+                con.query(query, queryParams, (err) => {
+                    if (err){
+                        res.writeHead(500, {'content-type':'text/plain'});
+                        res.end('Error in deleting product from cart');
+                    } else{
+                        res.writeHead(200, {'content-type':'text/plain'});
+                        res.end('Success in deleting product from cart');
+                    }
+                })
+            } else if (action === 'fetch'){
+                let query = 'SELECT p.product_name, p.prod_id, p.price, p.image_link, c.color, c.quantity from products p JOIN cart c ON p.prod_id = c.prod_id WHERE c.user_id = ?';
+                const queryParams = [userId];
+
+                con.query(query, queryParams, (err, results) => {
+                    if (err){
+                        res.writeHead(500, {'content-type':'text/plain'});
+                        res.end('Error in fetching products from cart');
+                    } else{
+                        res.writeHead(200, {'content-type':'application/json'});
+                        res.end(JSON.stringify(results));
+                    }
+                })
+            } else if(action === 'cartlist'){
+                let query = 'SELECT prod_id FROM cart WHERE user_id = ?';
+                const queryParams = [userId,];
+
+                con.query(query, queryParams, (err, results) => {
+                    if (err){
+                        res.writeHead(500, {'content-type':'text/plain'});
+                        res.end('Error in fetching cartlist from cart');
+                    } else{
+                        res.writeHead(200, {'content-type':'application/json'});
                         res.end(JSON.stringify(results));
                     }
                 })
