@@ -8,7 +8,7 @@ import { AuthContext } from './Context/AuthenticationContext';
 const ProductView = () => {
     const { id, category, productName } = useParams();
     const [individualProduct, setIndividualProduct] = useState({});
-    const { userId, isAuthenticated, wishlist, addToWishlist, removeFromWishlist, addToCartlist, removeFromCartlist, cartList } = useContext(AuthContext);
+    const { userId, isAuthenticated, wishlist, addToWishlist, removeFromWishlist, addToCartList, removeFromCartList , cartList } = useContext(AuthContext);
     const [changeColor, setChangeColor] = useState(false);
     const [message, setMessage] = useState('');
 
@@ -114,9 +114,9 @@ const ProductView = () => {
                 if (response.ok) {
                     console.log(`Wishlist ${action} success`);
                     if (action === 'insert') {
-                        addToCartlist(id); // Update Cartlist in context for UI update
+                        addToCartList(id); // Update Cartlist in context for UI update
                     } else {
-                        removeFromCartlist(id); // Remove from Cartlist in context
+                        removeFromCartList (id); // Remove from Cartlist in context
                     }
                 } else {
                     console.error('Error in wishlist request:', response.status);

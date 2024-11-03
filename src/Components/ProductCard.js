@@ -7,7 +7,7 @@ import './product-card.css';
 
 const ProductCard = (props) => {
     const { item, flexbasis, minWidth } = props;
-    const { userId, isAuthenticated, wishlist, addToWishlist, removeFromWishlist, addToCartlist, removeFromCartlist, cartList } = useContext(AuthContext);
+    const { userId, isAuthenticated, wishlist, addToWishlist, removeFromWishlist, addToCartList, removeFromCartList , cartList } = useContext(AuthContext);
     const [changeColor, setChangeColor] = useState(false);
     const [message, setMessage] = useState('');
 
@@ -84,9 +84,9 @@ const ProductCard = (props) => {
                 if (response.ok) {
                     console.log(`Wishlist ${action} success`);
                     if (action === 'insert') {
-                        addToCartlist(item.prod_id); // Update Cartlist in context for UI update
+                        addToCartList(item.prod_id); // Update Cartlist in context for UI update
                     } else {
-                        removeFromCartlist(item.prod_id); // Remove from Cartlist in context
+                        removeFromCartList (item.prod_id); // Remove from Cartlist in context
                     }
                 } else {
                     console.error('Error in wishlist request:', response.status);
