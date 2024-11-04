@@ -17,6 +17,7 @@ import Cart from './Components/Cart/Cart.js';
 import Result from './Components/Search/Result.js';
 
 
+
 function App() {
   return (
     <Router>
@@ -33,7 +34,7 @@ function App() {
             <Route path='/login' element={<Login />} />
             <Route path='/wishlist' element={<WishList />} />
             <Route path='/cart' element={<Cart />} />
-            <Route path='/:searchQuery' element={<Result />} />
+            <Route path='/search/:searchQuery' element={<Result />} />
           </Route>
       </Routes>
     </Router>

@@ -25,7 +25,6 @@ const Footer = () => {
             return response.json(); // Parse the JSON response if status is OK
         })
         .then(data => {
-            // console.log('fetched categories:', data);
             setKidsCategories(data);
             
         })
@@ -44,7 +43,6 @@ const Footer = () => {
             return response.json(); // Parse the JSON response if status is OK
         })
         .then(data => {
-            // console.log('fetched categories:', data);
             setWomenCategories(data);
             
         })
@@ -63,7 +61,6 @@ const Footer = () => {
             return response.json(); // Parse the JSON response if status is OK
         })
         .then(data => {
-            // console.log('fetched categories:', data);
             setMenCategories(data);
             
         })
@@ -82,8 +79,6 @@ const Footer = () => {
             return response.json(); // Parse the JSON response if status is OK
         })
         .then(data => {
-            // console.log('fetched categories:', data);
-            console.log(data);
             setAccessoriesCategories(data);
             
         })

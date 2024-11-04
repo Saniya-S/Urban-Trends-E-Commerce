@@ -21,12 +21,13 @@ const Navbar = () => {
 
     //Context
     const {accUsername, isAuthenticated, setIsAuthenticated, userId, setWishlist, setCartList} = useContext(AuthContext);
-    console.log(accUsername);
+
 
     useEffect(() => {
         if (isAuthenticated){
             fetch('http://localhost:3001/wishlist', {
                 method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     userId:userId,
                     action: 'wishlist'
@@ -51,6 +52,7 @@ const Navbar = () => {
         if (isAuthenticated){
             fetch('http://localhost:3001/cart', {
                 method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     userId:userId,
                     action: 'cartlist'

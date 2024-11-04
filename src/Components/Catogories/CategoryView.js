@@ -8,7 +8,6 @@ import {faCircleLeft } from '@fortawesome/free-solid-svg-icons';
 
 const CategoryView = () => {
     const {subCategory, category} = useParams();
-    console.log('sub', subCategory);
     const [categoryProduct, setCategoryProduct] = useState([]);
 
     //Fetching data based on the category listed in the path
@@ -31,7 +30,6 @@ const CategoryView = () => {
             } return response.json();
         })
         .then((data) => {
-            console.log('data:', data);
             setCategoryProduct(data);
         })
         .catch(error => {

@@ -35,7 +35,6 @@ const ProductView = () => {
         })
         .then(response => response.json())
         .then(data => {
-            console.log('view', data);
             setIndividualProduct(data[0]);
         })
         .catch(error => console.error('Error in fetching selected products:', error));
@@ -72,7 +71,6 @@ const ProductView = () => {
             })
             .then(response => {
                 if (response.ok) {
-                    console.log(`Wishlist ${action} success`);
                     if (action === 'insert') {
                         addToWishlist(id); // Update wishlist in context for UI update
                     } else {
@@ -112,7 +110,6 @@ const ProductView = () => {
             })
             .then(response => {
                 if (response.ok) {
-                    console.log(`Wishlist ${action} success`);
                     if (action === 'insert') {
                         addToCartList(id); // Update Cartlist in context for UI update
                     } else {

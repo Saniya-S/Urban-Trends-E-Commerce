@@ -4,7 +4,6 @@ import ProductCard from '../ProductCard';
 
 const Filter = (props) => {
     const {category} = props;
-    console.log('category:', category);
 
     //State Variables
     const [styles, setStyles] = useState([]);
@@ -29,11 +28,10 @@ const Filter = (props) => {
             } return response.json();
         })
         .then(data => {
-            // console.log(data)
             setStyles(data);
         })
         .catch(error => console.error(`Error fetching styles: ${error}`))
-    }, []);
+    }, [category]);
 
     //colors
     useEffect(() => {
@@ -68,7 +66,6 @@ const Filter = (props) => {
             } return response.json();
         }) 
         .then(data => {
-            console.log('All Products', data);
             setProducts(data);
         })
         .catch(error => {
@@ -130,8 +127,6 @@ const Filter = (props) => {
     //handle Submit
     const handleSubmit = (e) => {
         e.preventDefault(); //prevents page reload 
-        console.log('color', choosenColor);
-        console.log('promotion', checked);
         //fetch request for getting products
         fetch('http://localhost:3001/products', {
             method: 'POST',
@@ -150,7 +145,6 @@ const Filter = (props) => {
             } return response.json();
         })
         .then(data => {
-            console.log('filtered data', data)
             setProducts(data);
         })
         .catch(error => {

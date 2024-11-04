@@ -18,7 +18,7 @@ const Search = () => {
 
     const search = () => {
         setSearchQuery('');
-        navigate(`/${searchQuery}`);
+        navigate(`/search/${searchQuery}`);
     }
 
     return(

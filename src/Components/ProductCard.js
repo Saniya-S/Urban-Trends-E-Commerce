@@ -49,7 +49,6 @@ const ProductCard = (props) => {
                 console.error('HTTP Error status', response.status);
                 setChangeColor(!changeColor); // Revert color change if request fails
             } else {
-                console.log(`Wishlist ${action} success`);
                 if (action === 'insert') {
                     addToWishlist(item.prod_id);  // Update wishlist in context
                 } else {
@@ -82,7 +81,6 @@ const ProductCard = (props) => {
             })
             .then(response => {
                 if (response.ok) {
-                    console.log(`Wishlist ${action} success`);
                     if (action === 'insert') {
                         addToCartList(item.prod_id); // Update Cartlist in context for UI update
                     } else {

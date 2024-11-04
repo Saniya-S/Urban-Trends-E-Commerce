@@ -22,7 +22,6 @@ const NewArrivals = () => {
       } return response.json();
   })
   .then(data => {
-      console.log('data:', data);
       setnewArrivals(data);
   })
   .catch(error => {

@@ -1,16 +1,16 @@
 
-
+require('dotenv').config();
 const mysql = require('mysql2'); //library downloaded npm, used to create and interact with mysql database
 const http = require('http'); //built in module, used to create a HTTP server
 const bcrypt = require('bcryptjs');
-// const { fetchSubCategories } = require('./functions.js'); //importing fetchSuCaegories function
+
 
 //Creates a connection with the database
 const con = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'Saniya@123',
-    database: 'urban_trends'
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME
 });
 
 //Make connection
@@ -26,7 +26,6 @@ con.connect((err) => {
 const fetchSubCaegories = (category,callback) => {
     const query = 'SELECT DISTINCT subcategory FROM products WHERE category= ?';
     const queryParams = [category];
-    console.log('I am in the function'); //🔴
     con.query(query, queryParams, (err, results) => {
         err ? callback(err, null) : callback(null, results);
     })
@@ -43,7 +42,6 @@ const fetchColors = (category, callback) => {
         const uniqueColors = new Set(); //Set contains unique values
         results.forEach(row => row.colors.split(',').forEach(color => uniqueColors.add(color.trim()))); //Adds unique colors to the set
 
-        console.log(uniqueColors);
         callback(null, Array.from(uniqueColors));
     })
 }
@@ -125,7 +123,6 @@ const fetchWishList = (userId, callback) => {
 
 
 const server = http.createServer((req, res) => {
-    console.log(`Request received at: ${req.url} with method: ${req.method}`); //logs the URL and Method used //🔴
 
     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000'); // Adjust origin if needed
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
@@ -139,7 +136,6 @@ const server = http.createServer((req, res) => {
     }
     //fetching subcategories
     if (req.url.startsWith('/subcategory') && req.method === 'POST'){
-        console.log('this is before the function'); //🔴
         let data = '';
 
         //Data gets sent in chunks
@@ -155,7 +151,6 @@ const server = http.createServer((req, res) => {
                     res.writeHead(500, {'Content-Type':'text/plain'})
                     res.end('Error fetching products');
                 } else {
-                    console.log('Fetched products'); //🔴
                     res.writeHead(200, {'Content-Type': 'application/json'})
                     res.end(JSON.stringify(results));
                 }
@@ -311,7 +306,6 @@ const server = http.createServer((req, res) => {
                     res.writeHead(500, {'content-type' : 'text/plain'});
                     res.end('error in fetching new arrivals');
                 } else{
-                    console.log('arrivals', results);
                     res.writeHead(200, {'content-type' : 'application/json'});
                     res.end(JSON.stringify(results));
                 }
@@ -324,7 +318,6 @@ const server = http.createServer((req, res) => {
 
         req.on('end', () => {
             const {userId, prodId, action} = JSON.parse(data);
-            console.log(userId, prodId, action);
             if (action === 'fetch'){
                 fetchWishList(userId, (err, results) => {
                     if (err){
@@ -341,7 +334,6 @@ const server = http.createServer((req, res) => {
                     }
                 } )
             } else if (action === 'insert'){
-                console.log('action is insert');
                 const query = 'INSERT into wishlist (user_id, prod_id) VALUES (?, ?)';
                 const queryParams = [userId, prodId];
 
@@ -503,4 +495,3 @@ server.listen(3001, () => {
     console.log('Server running on http://localhost:3001');
   });
 
-module.exports = con;

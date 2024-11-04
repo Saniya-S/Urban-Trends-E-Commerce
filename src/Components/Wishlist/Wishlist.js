@@ -8,6 +8,7 @@ const WishList = () => {
     const navigate = useNavigate();
     const {isAuthenticated,  userId} = useContext(AuthContext);
     const [wishlistProducts, setWishlistProducts] = useState([]);
+    const [message, setMessage] = useState('');
     
     useEffect(() => {
         if(!isAuthenticated) {
@@ -23,12 +24,18 @@ const WishList = () => {
                 body: JSON.stringify({ userId :  userId, action: 'fetch' })
             }).then(response => {
                 if (!response.ok) {
-                    console.error('HTTP Error status', response.status);
+                    if(response.status === 404){
+                        setMessage('No products in wishlist!');
+                    }else {
+                        console.error('HTTP Error status', response.status);
+                    }
+                   
                 } else {
                     return response.json();
                 }
             }).then(data => {
-                console.log('data:', data);
+                
+                
                 setWishlistProducts(data);
             })
             .catch(err => console.error('Fetch error:', err));
@@ -43,6 +50,7 @@ const WishList = () => {
     return(
         <div>
             <h1>Wishlist</h1>
+            <h4 style={{margin: '10px'}}>{message}</h4>
             <div className="category-view-container">
                 <div className="category-box">
                     {wishlistProducts && wishlistProducts.map((product) => 

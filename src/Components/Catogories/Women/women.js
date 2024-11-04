@@ -9,16 +9,17 @@ import CarouselProduct from '../../CarouselProduct';
 import SubCategory from '../../SubCategory';
 import Filter from '../Filter';
 import promotion1 from '../../../Assets/1.png';
-import promotion2 from '../../../Assets/2.png';
-import promotion3 from '../../../Assets/3.png';
+import promotion5 from '../../../Assets/5.png';
+import promotion6 from '../../../Assets/6.png';
 
 
 
 //Banner List
 const images = [
+    promotion6,
     promotion1,
-    promotion2,
-    promotion3,
+    promotion5,
+    
     
   ];
 
@@ -45,7 +46,6 @@ useEffect(() => {
         return response.json(); // Parse the JSON response if status is OK
     })
     .then(data => {
-        // console.log('fetched categories:', data);
         setCategoryList(data);
         
     })
