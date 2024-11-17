@@ -22,6 +22,28 @@ This platform demonstrates modern e-commerce capabilities, including product sea
 - **Authentication**: bcrypt for secure password hashing
 - **Environment Management**: dotenv for environment variables
 
-## **Acknowledgments**
+## Setup
+1. **Clone Repository**
+```bash
+git clone https://github.com/Saniya-S/Urban-Trends-E-Commerce.git
+cd Urban-Trends-E-Commerce
+```
+2. **Install Dependencies**
+```bash
+npm install
+```
+3. **Set Up Environment Variables**
+Copy `.env.example` to `.env` and fill in the required variables
 
+4. **Run the Application**
+```bash
+npm start
+```
+
+5. **Start the Node.js Server**
+```bash
+node server
+```
+
+## **Acknowledgments**
 This project was developed as part of a university assignment, demonstrating a full-stack approach to building a dynamic e-commerce platform with a focus on usability, security, and responsiveness.
